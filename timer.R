@@ -31,3 +31,7 @@ toc()
 
 printTicTocLog() %>%
   knitr::kable()
+
+# The computing with parallel loop 29-35 is the , probably because it takes 
+# advantage of multiple CPU cores for parallel processing and might be fastest
+# due to problem size. 
