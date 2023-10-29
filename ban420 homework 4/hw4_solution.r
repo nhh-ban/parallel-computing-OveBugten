@@ -1,6 +1,7 @@
 # Assignment 1:  
 library(tweedie) 
 library(ggplot2)
+library(tictoc)
 
 simTweedieTest <-  
   function(N){ 
@@ -25,7 +26,6 @@ df <-
     M = 1000, 
     share_reject = NA) 
 
-
 for(i in 1:nrow(df)){ 
   df$share_reject[i] <-  
     MTweedieTests( 
@@ -33,9 +33,6 @@ for(i in 1:nrow(df)){
       M=df$M[i], 
       sig=.05) 
 } 
-
-
-
 
 ## Assignemnt 4 
    
