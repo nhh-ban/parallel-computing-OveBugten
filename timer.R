@@ -29,9 +29,8 @@ toc()
 
 ## --------- Printing the TicToc Log with times
 
-printTicTocLog() %>%
+tictoc::printTicTocLog() %>%
   knitr::kable()
 
-# The computing with parallel loop 29-35 is the , probably because it takes 
-# advantage of multiple CPU cores for parallel processing and might be fastest
-# due to problem size. 
+# The computing with rewritten MTweedieTest is the best because it takes 
+# advantage of multiple CPU cores for parallel processing.
