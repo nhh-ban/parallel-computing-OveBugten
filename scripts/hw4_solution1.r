@@ -11,7 +11,6 @@ simTweedieTest <-
     )$p.value 
   } 
 
-
 # Assignment 2:  
 MTweedieTests <-  
   function(N,M,sig){ 
@@ -35,7 +34,7 @@ for(i in 1:nrow(df)){
 } 
 
 ## Assignemnt 4 
-   
+
 # This is one way of solving it - maybe you have a better idea? 
 # First, write a function for simulating data, where the "type" 
 # argument controls the distribution. We also need to ensure 

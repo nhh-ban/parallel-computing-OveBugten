@@ -11,7 +11,6 @@ simTweedieTest <-
     )$p.value 
   } 
 
-
 # Assignment 2:  
 MTweedieTests <-  
   function(N,M,sig){ 
@@ -26,16 +25,29 @@ df <-
     M = 1000, 
     share_reject = NA) 
 
-for(i in 1:nrow(df)){ 
-  df$share_reject[i] <-  
-    MTweedieTests( 
-      N=df$N[i], 
-      M=df$M[i], 
-      sig=.05) 
-} 
+#Rewritten lines 29-35
+# Register the number of available cores for parallel processing
+# Determine the maximum number of cores you'd like to use
+maxcores <- 8
+Cores <- min(parallel::detectCores(), maxcores)
+
+# Instantiate the cores:
+cl <- makeCluster(Cores)
+
+# Register the cluster for parallel processing
+registerDoParallel(cl)
+
+results <- foreach(i=1:nrow(df), .combine = "c", .packages = c('tweedie')) %dopar% 
+  {MTweedieTests(N=df$N[i], M=df$M[i], sig=.05)}
+
+# Assign results to df column
+df$share_reject <- results
+
+# Stop the cluster after computation
+stopCluster(cl)
 
 ## Assignemnt 4 
-   
+
 # This is one way of solving it - maybe you have a better idea? 
 # First, write a function for simulating data, where the "type" 
 # argument controls the distribution. We also need to ensure 

@@ -13,11 +13,25 @@ simTweedieTest <-
 
 
 # Assignment 2:  
-MTweedieTests <-  
-  function(N,M,sig){ 
-    sum(replicate(M,simTweedieTest(N)) < sig)/M 
-  } 
-
+MTweedieTests <- function(N, M, sig) {
+  # Create a cluster with all available cores
+  cl <- makeCluster(detectCores())
+  registerDoParallel(cl)
+  
+  # Load tweedie for all clusters
+  clusterEvalQ(cl, library(tweedie))
+  
+  clusterExport(cl, "simTweedieTest")
+  
+  # Use foreach to perform simulations in parallel
+  results <- foreach(i = 1:M, .combine = "c") %dopar%
+    {simTweedieTest(N)}
+  
+  # Close the cluster
+  stopCluster(cl)
+  
+  return(sum(results < sig)/M)
+}
 
 # Assignment 3:  
 df <-  
@@ -35,7 +49,7 @@ for(i in 1:nrow(df)){
 } 
 
 ## Assignemnt 4 
-   
+
 # This is one way of solving it - maybe you have a better idea? 
 # First, write a function for simulating data, where the "type" 
 # argument controls the distribution. We also need to ensure 
